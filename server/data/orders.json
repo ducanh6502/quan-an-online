@@ -1,0 +1,64 @@
+[
+  {
+    "id": "1",
+    "userId": "1",
+    "items": [
+      {
+        "id": "1",
+        "name": "Phở Bò Đặc Biệt",
+        "price": 75000,
+        "quantity": 2
+      },
+      {
+        "id": "4",
+        "name": "Gỏi Cuốn Tôm Thịt",
+        "price": 50000,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 200000,
+    "status": "Đã giao hàng",
+    "paymentMethod": "Tiền mặt",
+    "address": "123 Đường ABC, Quận 1, TP.HCM",
+    "phone": "0987654321",
+    "createdAt": "2023-04-01T00:00:00.000Z"
+  },
+  {
+    "id": "1746732074939",
+    "userId": "1746724200966",
+    "items": [
+      {
+        "id": "1",
+        "name": "Phở Bò Đặc Biệt",
+        "price": 75000,
+        "image": "https://images.pexels.com/photos/5835353/pexels-photo-5835353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 75000,
+    "address": "Hoàng Mai, Hà Nội",
+    "phone": "0834459599",
+    "paymentMethod": "Tiền mặt",
+    "status": "Đã giao hàng",
+    "createdAt": "2025-05-08T19:21:14.939Z"
+  },
+  {
+    "id": "1746791738406",
+    "userId": "1746724200966",
+    "items": [
+      {
+        "id": "4",
+        "name": "Gỏi Cuốn Tôm Thịt",
+        "price": 50000,
+        "image": "https://heyyofoods.com/wp-content/uploads/2024/03/4-4.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 50000,
+    "address": "Hoàng Mai, Hà Nội",
+    "phone": "0834459599",
+    "paymentMethod": "Tiền mặt",
+    "status": "Đang xử lý",
+    "createdAt": "2025-05-09T11:55:38.406Z"
+  }
+]

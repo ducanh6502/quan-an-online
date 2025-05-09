@@ -1,0 +1,79 @@
+[
+  {
+    "id": "1",
+    "name": "Phở Bò Đặc Biệt",
+    "description": "Phở bò truyền thống với nước dùng đậm đà, thịt bò tươi ngon, hành ngò và các loại gia vị đặc trưng.",
+    "price": 75000,
+    "image": "https://images.pexels.com/photos/5835353/pexels-photo-5835353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "category": "1",
+    "rating": 4.8,
+    "popular": true,
+    "createdAt": "2023-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "name": "Cơm Tấm Sườn Bì Chả",
+    "description": "Cơm tấm với sườn nướng, bì heo và chả trứng. Kèm theo rau sống, dưa chua và nước mắm.",
+    "price": 65000,
+    "image": "https://images.pexels.com/photos/7287723/pexels-photo-7287723.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "category": "1",
+    "rating": 4.6,
+    "popular": true,
+    "createdAt": "2023-01-02T00:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "name": "Bún Bò Huế",
+    "description": "Bún bò Huế với nước dùng cay nồng, thịt bò, giò heo và rau thơm đặc trưng.",
+    "price": 70000,
+    "image": "https://images.pexels.com/photos/8969237/pexels-photo-8969237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "category": "2",
+    "rating": 4.7,
+    "popular": true,
+    "createdAt": "2023-01-03T00:00:00.000Z"
+  },
+  {
+    "id": "4",
+    "name": "Gỏi Cuốn Tôm Thịt",
+    "description": "Gỏi cuốn với tôm, thịt heo, bún, rau sống và nước chấm đặc biệt.",
+    "price": 50000,
+    "image": "https://heyyofoods.com/wp-content/uploads/2024/03/4-4.jpg",
+    "category": "3",
+    "rating": 4.5,
+    "popular": true,
+    "createdAt": "2023-01-04T00:00:00.000Z"
+  },
+  {
+    "id": "5",
+    "name": "Bánh Mì Thịt",
+    "description": "Bánh mì giòn với thịt, patê, rau, dưa chua và sốt đặc biệt.",
+    "price": 30000,
+    "image": "https://images.pexels.com/photos/1633525/pexels-photo-1633525.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "category": "3",
+    "rating": 4.4,
+    "popular": false,
+    "createdAt": "2023-01-05T00:00:00.000Z"
+  },
+  {
+    "id": "1746733825243",
+    "name": "Táo Vàng",
+    "description": "Táo thường mạ vàng",
+    "price": 99999,
+    "category": "4",
+    "image": "https://pbs.twimg.com/media/F2j4DyJXUAAswdq.jpg",
+    "rating": 0,
+    "popular": false,
+    "createdAt": "2025-05-08T19:50:25.243Z"
+  },
+  {
+    "id": "1746790650806",
+    "name": "Mì Trộn Indomie",
+    "description": "Sự kết hợp hoàn hảo giữa sợi mì dai, thơm đặc trưng của Indomie với các loại gia vị đậm đà đi kèm trong gói như dầu hành phi, nước tương, tương ớt và bột nêm. Sau khi mì được luộc chín vừa phải, người nấu sẽ trộn mì cùng toàn bộ gói gia vị, tạo nên hương vị mặn mà, cay nhẹ và béo thơm",
+    "price": 50000,
+    "category": "2",
+    "rating": 0,
+    "popular": false,
+    "createdAt": "2025-05-09T11:37:30.806Z",
+    "image": "https://img.mservice.com.vn/common/u/2e02fb5fe4f64fb55bc713540643c6f8eae702d101cea8c59afc49cfc505fc37/27f48338-9660-4198-9535-6e7cd3219261uxyffc1p.jpeg"
+  }
+]
