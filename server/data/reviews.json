@@ -5,7 +5,7 @@
     "foodId": "1",
     "rating": 5,
     "comment": "Phở bò rất ngon, nước dùng đậm đà và thơm.",
-    "userName": "Nguyễn Văn A",
+    "userName": "Quang Trung",
     "createdAt": "2023-04-15T00:00:00.000Z"
   },
   {
@@ -14,8 +14,26 @@
     "foodId": "3",
     "rating": 4,
     "comment": "Bún bò Huế cay vừa phải, thịt mềm và nhiều.",
-    "userName": "Nguyễn Văn A",
+    "userName": "Nguyễn Huệ",
     "createdAt": "2023-04-20T00:00:00.000Z",
     "adminReply": "cảm ơn quý khách đã ủng hộ"
+  },
+  {
+    "id": "1746810339442",
+    "userId": "1746724200966",
+    "foodId": "2",
+    "rating": 5,
+    "comment": "Cơm rất ngon",
+    "createdAt": "2025-05-09T17:05:39.442Z",
+    "userName": "Đức Anh"
+  },
+  {
+    "id": "1746882242921",
+    "userId": "1746881972523",
+    "foodId": "1746733825243",
+    "rating": 5,
+    "comment": "Ăn ngon đến gãy cả răng",
+    "createdAt": "2025-05-10T13:04:02.921Z",
+    "userName": "Thử Nghiệmn"
   }
 ]

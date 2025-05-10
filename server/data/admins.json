@@ -1,12 +1,5 @@
 [
   {
-    "id": "1",
-    "name": "Admin", 
-    "username": "admin",
-    "password": "admin123",
-    "createdAt": "2023-01-01T00:00:00.000Z"
-  },
-  {
     "id": "2",
     "name": "Duc Anh",
     "username": "ducanh", 

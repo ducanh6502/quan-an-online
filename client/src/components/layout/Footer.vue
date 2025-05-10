@@ -9,9 +9,9 @@
         
         <div class="footer-section">
           <h3>Liên hệ</h3>
-          <p>Email: contact@quananonline.com</p>
-          <p>Điện thoại: 0987 654 321</p>
-          <p>Địa chỉ: 123 Đường Ẩm Thực, Quận Trung Tâm, TP.HCM</p>
+          <p>Email: ducanh652k2@gmail.com</p>
+          <p>Điện thoại: 0834 459 599</p>
+          <p>Địa chỉ: ngõ 54, Đường Ngũ Nhạc, phường Thanh Trì, Quận Hoàng Mai, TP.Hà Nội</p>
         </div>
         
         <div class="footer-section">
@@ -22,7 +22,7 @@
       </div>
       
       <div class="footer-bottom">
-        <p>&copy; {{ new Date().getFullYear() }} Quán Ăn Online. Tất cả quyền được bảo lưu.</p>
+        <p>&copy; {{ new Date().getFullYear() }} Hệ thống đặt đồ ăn trực tuyến.</p>
       </div>
     </div>
   </footer>
