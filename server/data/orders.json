@@ -34,7 +34,7 @@
     "address": "Hoàng Mai, Hà Nội",
     "phone": "0834459599",
     "paymentMethod": "Tiền mặt",
-    "status": "Đang xử lý",
+    "status": "Đã giao hàng",
     "createdAt": "2025-05-09T11:55:38.406Z"
   },
   {
@@ -95,5 +95,24 @@
     "paymentMethod": "Tiền mặt",
     "status": "Đang giao hàng",
     "createdAt": "2025-05-10T13:09:07.950Z"
+  },
+  {
+    "id": "1747080205126",
+    "userId": "1746724200966",
+    "items": [
+      {
+        "id": "1746733825243",
+        "name": "Táo Vàng",
+        "price": 999999,
+        "image": "https://pbs.twimg.com/media/F2j4DyJXUAAswdq.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 999999,
+    "address": "Thanh Trì, Hoàng Mai, Hà Nội",
+    "phone": "0834459599",
+    "paymentMethod": "Tiền mặt",
+    "status": "Đang giao hàng",
+    "createdAt": "2025-05-12T20:03:25.126Z"
   }
 ]

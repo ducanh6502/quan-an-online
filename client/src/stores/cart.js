@@ -4,19 +4,19 @@ import { useToast } from 'vue-toastification';
 
 export const useCartStore = defineStore('cart', () => {
   const toast = useToast();
-  const items = ref([]);
-  
+  const items = ref([]); // Danh sách items trong giỏ hàng
+  // Tính tổng số lượng sản phẩm
   const totalItems = computed(() => {
     return items.value.reduce((total, item) => total + item.quantity, 0);
   });
-  
+  // Tính tổng tiền
   const totalPrice = computed(() => {
     return items.value.reduce((total, item) => {
       return total + item.price * item.quantity;
     }, 0);
   });
   
-  // Initialize cart from localStorage
+  // Khởi tạo giỏ hàng
   function initializeCart() {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
@@ -24,12 +24,12 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
   
-  // Save cart to localStorage
+  // Lưu giỏ hàng
   function saveCart() {
     localStorage.setItem('cart', JSON.stringify(items.value));
   }
   
-  // Add item to cart
+  // Thêm item vào giỏ hàng
   function addItem(food) {
     const existingItem = items.value.find(item => item.id === food.id);
     
@@ -50,7 +50,7 @@ export const useCartStore = defineStore('cart', () => {
     saveCart();
   }
   
-  // Remove item from cart
+  // Xóa item khỏi giỏ hàng
   function removeItem(id) {
     const index = items.value.findIndex(item => item.id === id);
     if (index !== -1) {
@@ -61,7 +61,7 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
   
-  // Update item quantity
+  // Cập nhật số lượng item
   function updateQuantity(id, quantity) {
     const item = items.value.find(item => item.id === id);
     if (item) {
@@ -74,13 +74,13 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
   
-  // Clear cart
+  // Xóa toàn bộ giỏ hàng
   function clearCart() {
     items.value = [];
     localStorage.removeItem('cart');
   }
   
-  // Initialize cart on store creation
+  // Khởi tạo giỏ hàng khi store được khởi tạo
   initializeCart();
   
   return {

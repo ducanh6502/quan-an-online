@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 
-// Customer Pages
+// Import các component cho khách hàng
 import Home from '../views/Home.vue';
 import Menu from '../views/Menu.vue';
 import FoodDetails from '../views/FoodDetails.vue';
@@ -12,7 +12,7 @@ import UserRegister from '../views/UserRegister.vue';
 import UserProfile from '../views/UserProfile.vue';
 import OrderHistory from '../views/OrderHistory.vue';
 
-// Admin Pages
+// Import các component cho admin
 import AdminLogin from '../views/admin/AdminLogin.vue';
 import AdminDashboard from '../views/admin/AdminDashboard.vue';
 import ManageFoods from '../views/admin/ManageFoods.vue';
@@ -20,7 +20,7 @@ import ManageOrders from '../views/admin/ManageOrders.vue';
 import ManageReviews from '../views/admin/ManageReviews.vue';
 
 const routes = [
-  // Customer Routes
+  // Routes khách hàng
   { path: '/', component: Home, name: 'home' },
   { path: '/menu', component: Menu, name: 'menu' },
   { path: '/food/:id', component: FoodDetails, name: 'food-details' },
@@ -31,7 +31,7 @@ const routes = [
   { path: '/profile', component: UserProfile, name: 'profile', meta: { requiresAuth: true } },
   { path: '/orders', component: OrderHistory, name: 'orders', meta: { requiresAuth: true } },
   
-  // Admin Routes
+// Routes Admin 
   { path: '/admin/login', component: AdminLogin, name: 'admin-login', meta: { hideNavbar: true, hideFooter: true, adminGuestOnly: true } },
   { 
     path: '/admin', 
@@ -68,19 +68,19 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
   
-  // Check for authentication requirements
+  // Kiểm tra yêu cầu đăng nhập
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next({ name: 'login', query: { redirect: to.fullPath } });
   } 
-  // Check for admin requirements
+  // Kiểm tra quyền admin
   else if (to.meta.requiresAdmin && !authStore.isAdmin) {
     next({ name: 'admin-login' });
   } 
-  // Redirect authenticated users away from login/register
+  // Chuyển hướng user đã đăng nhập khỏi trang login/register
   else if (to.meta.guestOnly && authStore.isAuthenticated) {
     next({ name: 'home' });
   }
-  // Redirect authenticated admins away from admin login
+  // Chuyển hướng admin đã đăng nhập khỏi trang admin login
   else if (to.meta.adminGuestOnly && authStore.isAdmin) {
     next({ name: 'admin-dashboard' });
   }

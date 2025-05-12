@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('auth', () => {
   
   const isAuthenticated = computed(() => !!token.value);
   
-  // Initialize auth state from localStorage
+  // Khởi tạo từ LocalStorage
   function initializeAuth() {
     const savedToken = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
@@ -24,14 +24,16 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
   
-  // Login user
+  // Xử lý Đăng nhập User
   async function login(email, password) {
     try {
+      // Gọi API đăng nhập
       const response = await axios.post('/api/users/login', { email, password });
+      // Lưu thông tin vào state
       token.value = response.data.token;
       user.value = response.data.user;
       isAdmin.value = false;
-      
+      // Lưu vào localStorage
       localStorage.setItem('token', token.value);
       localStorage.setItem('user', JSON.stringify(user.value));
       localStorage.setItem('isAdmin', 'false');
@@ -45,7 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
   
-  // Login admin
+  // Xử lý Đăng nhập Admin
   async function loginAdmin(username, password) {
     try {
       const response = await axios.post('/api/admin/login', { username, password });
@@ -66,7 +68,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
   
-  // Register user
+  // Đăng ký tài khoản khách mới
   async function register(userData) {
     try {
       const response = await axios.post('/api/users/register', userData);
@@ -87,7 +89,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
   
-  // Logout
+  // Đăng xuất
   function logout() {
     token.value = null;
     user.value = null;

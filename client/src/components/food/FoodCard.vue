@@ -2,6 +2,7 @@
 import { useCartStore } from '../../stores/cart';
 import { defineProps } from 'vue';
 
+// Khai báo props nhận thông tin món ăn
 const props = defineProps({
   food: {
     type: Object,
@@ -9,11 +10,14 @@ const props = defineProps({
   }
 });
 
+// Khởi tạo cart store để xử lý giỏ hàng
 const cartStore = useCartStore();
 
 function addToCart() {
   cartStore.addItem(props.food);
 }
+
+// Hiển thị hình ảnh, thông tin Món Ăn và nút thêm vào Giỏ.
 </script>
 
 <template>

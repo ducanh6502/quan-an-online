@@ -1,18 +1,22 @@
 <script setup>
+// Import các thư viện cần thiết
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../stores/auth';
 
+// Khởi tạo router và auth store
 const router = useRouter();
 const authStore = useAuthStore();
 const isMobileMenuOpen = ref(false);
 
-// Get current admin name
+// Hiển thị thông tin admin đang đăng nhập
+// Lấy tên admin hiện tại
 const adminName = computed(() => {
   return authStore.user ? authStore.user.name || 'Admin' : 'Admin';
 });
 
-// Sidebar navigation items
+// Hiển thị thanh điều hướng cho admin
+// Định nghĩa các mục điều hướng trong sidebar
 const navItems = [
   { name: 'Dashboard', path: '/admin', icon: '📊' },
   { name: 'Quản lý món ăn', path: '/admin/foods', icon: '🍔' },
@@ -20,14 +24,17 @@ const navItems = [
   { name: 'Quản lý đánh giá', path: '/admin/reviews', icon: '⭐' }
 ];
 
+// Hàm chuyển đổi sang dạng menu mobile
 function toggleMobileMenu() {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 }
 
+// Hàm xử lý đăng xuất
 function logout() {
   authStore.logout();
   router.push('/admin/login');
 }
+// Container chính của sidebar
 </script>
 
 <template>
@@ -48,7 +55,7 @@ function logout() {
         <p class="admin-role">Quản trị viên</p>
       </div>
     </div>
-    
+
     <nav class="sidebar-nav">
       <router-link 
         v-for="item in navItems" 

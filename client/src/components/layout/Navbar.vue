@@ -32,7 +32,7 @@ function logout() {
             <h1>Quán Ăn Online</h1>
           </router-link>
         </div>
-
+<!-- Menu cho user đã đăng nhập -->
         <!-- Desktop Menu -->
         <div class="nav-links desktop-menu">
           <router-link to="/" class="nav-link">Trang chủ</router-link>

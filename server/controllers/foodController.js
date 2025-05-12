@@ -13,7 +13,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Get all foods
+// Lấy danh sách món ăn
 export const getFoods = async (req, res) => {
   try {
     const foods = await getAllFoods();
@@ -23,7 +23,7 @@ export const getFoods = async (req, res) => {
   }
 };
 
-// Get popular foods
+// Lấy món ăn phổ biến
 export const getPopular = async (req, res) => {
   try {
     const limit = req.query.limit ? parseInt(req.query.limit) : 4;
@@ -34,7 +34,7 @@ export const getPopular = async (req, res) => {
   }
 };
 
-// Get food by ID
+// Lấy món ăn theo ID
 export const getFood = async (req, res) => {
   try {
     const food = await getFoodById(req.params.id);
@@ -49,23 +49,23 @@ export const getFood = async (req, res) => {
   }
 };
 
-// Create new food
+// Tạo món ăn mới
 export const addFood = async (req, res) => {
   try {
     const { name, description, price, category, image } = req.body;
     
-    // Validate input
+    // Kiểm tra dữ liệu đầu vào
     if (!name || !description || !price || !category) {
       return res.status(400).json({ message: 'Vui lòng nhập đầy đủ thông tin' });
     }
     
-    // Use uploaded image or provided image URL
+    // Xử lý hình ảnh upload
     let imageUrl = image;
     if (req.file) {
       imageUrl = `/uploads/${req.file.filename}`;
     }
     
-    // Create new food
+    // Tạo món mới
     const newFood = await createFood({ 
       name, 
       description, 
@@ -80,7 +80,7 @@ export const addFood = async (req, res) => {
   }
 };
 
-// Update food
+// Cập nhật món ăn
 export const editFood = async (req, res) => {
   try {
     const { name, description, price, category, popular, image } = req.body;
@@ -91,10 +91,10 @@ export const editFood = async (req, res) => {
       return res.status(404).json({ message: 'Không tìm thấy món ăn' });
     }
     
-    // Use uploaded image or keep existing image
+    
     let imageUrl = image || existingFood.image;
     if (req.file) {
-      // Delete old image file if it's local
+    
       if (existingFood.image?.startsWith('/uploads/')) {
         try {
           const oldImagePath = path.join(__dirname, '..', existingFood.image);
@@ -108,7 +108,7 @@ export const editFood = async (req, res) => {
       imageUrl = `/uploads/${req.file.filename}`;
     }
     
-    // Update food
+    // Cập nhật thông tin món ăn
     const updatedFood = await updateFood(req.params.id, { 
       name, 
       description, 
@@ -124,16 +124,16 @@ export const editFood = async (req, res) => {
   }
 };
 
-// Delete food
+// Xóa Món Ăn
 export const removeFood = async (req, res) => {
   try {
-    // Get existing food
+    // Kiểm tra món ăn tồn tại
     const existingFood = await getFoodById(req.params.id);
     if (!existingFood) {
       return res.status(404).json({ message: 'Không tìm thấy món ăn' });
     }
     
-    // Delete image file if it's local
+    // Xóa file ảnh nếu là ảnh local
     if (existingFood.image?.startsWith('/uploads/')) {
       try {
         const imagePath = path.join(__dirname, '..', existingFood.image);
@@ -145,7 +145,7 @@ export const removeFood = async (req, res) => {
       }
     }
     
-    // Delete food
+    // Xóa món ăn khỏi database
     await deleteFood(req.params.id);
     
     res.json({ message: 'Đã xóa món ăn thành công' });
