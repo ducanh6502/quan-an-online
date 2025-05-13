@@ -7,9 +7,7 @@ const stats = ref({
   totalOrders: 0,
   totalSales: 0,
   totalCustomers: 0,
-  totalFoodItems: 0,
-  recentOrders: [],
-  popularItems: []
+  totalFoodItems: 0
 });
 
 const isLoading = ref(true);
@@ -40,7 +38,7 @@ onMounted(async () => {
         <p>Đang tải dữ liệu...</p>
       </div>
       
-      <div v-else>
+      <div v-else class="dashboard-container">
         <!-- Stats Cards -->
         <div class="stats-grid">
           <div class="stat-card">
@@ -81,85 +79,6 @@ onMounted(async () => {
               <h3>Món ăn</h3>
               <p class="stat-value">{{ stats.totalFoodItems }}</p>
             </div>
-          </div>
-        </div>
-        
-        <!-- Recent Orders -->
-        <div class="recent-orders card">
-          <h2>Đơn hàng gần đây</h2>
-          
-          <div v-if="stats.recentOrders.length === 0" class="no-orders">
-            <p>Chưa có đơn hàng nào.</p>
-          </div>
-          
-          <div v-else class="orders-table-container">
-            <table class="orders-table">
-              <thead>
-                <tr>
-                  <th>Mã đơn</th>
-                  <th>Khách hàng</th>
-                  <th>Ngày đặt</th>
-                  <th>Tổng tiền</th>
-                  <th>Trạng thái</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="order in stats.recentOrders" :key="order.id">
-                  <td>#{{ order.id.slice(0, 8) }}</td>
-                  <td>{{ order.userName }}</td>
-                  <td>{{ new Date(order.createdAt).toLocaleDateString() }}</td>
-                  <td>{{ order.totalAmount.toLocaleString() }}đ</td>
-                  <td>
-                    <span class="status-badge" :class="`status-${order.status.toLowerCase()}`">
-                      {{ order.status }}
-                    </span>
-                  </td>
-                  <td>
-                    <router-link :to="`/admin/orders?id=${order.id}`" class="btn-view">
-                      Xem
-                    </router-link>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-          <div class="view-all-link">
-            <router-link to="/admin/orders">Xem tất cả đơn hàng »</router-link>
-          </div>
-        </div>
-        
-        <!-- Popular Items -->
-        <div class="popular-items card">
-          <h2>Món ăn phổ biến</h2>
-          
-          <div v-if="stats.popularItems.length === 0" class="no-items">
-            <p>Chưa có dữ liệu về món ăn phổ biến.</p>
-          </div>
-          
-          <div v-else class="popular-items-grid">
-            <div v-for="item in stats.popularItems" :key="item.id" class="popular-item">
-              <div class="popular-item-image">
-                <img :src="item.image" :alt="item.name" />
-              </div>
-              <div class="popular-item-info">
-                <h3>{{ item.name }}</h3>
-                <p class="popular-item-price">{{ item.price.toLocaleString() }}đ</p>
-                <div class="popular-item-stats">
-                  <span>
-                    <span class="stats-icon">📊</span> Đã bán: {{ item.soldCount }}
-                  </span>
-                  <span>
-                    <span class="stats-icon">⭐</span> {{ item.rating }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="view-all-link">
-            <router-link to="/admin/foods">Quản lý tất cả món ăn »</router-link>
           </div>
         </div>
       </div>
@@ -211,12 +130,21 @@ onMounted(async () => {
   100% { transform: rotate(360deg); }
 }
 
-/* Stats Grid */
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0 24px;
+}
+
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 250px);
   gap: 24px;
   margin-bottom: 24px;
+  max-width: 1200px;
+  width: 100%;
+  justify-content: center;
 }
 
 .stat-card {
@@ -254,155 +182,23 @@ onMounted(async () => {
   color: var(--dark);
 }
 
-/* Recent Orders */
-.recent-orders, .popular-items {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  margin-bottom: 24px;
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 250px);
+  }
 }
 
-.recent-orders h2, .popular-items h2 {
-  margin-top: 0;
-  margin-bottom: 24px;
-  color: var(--secondary);
-  font-size: 1.25rem;
-}
-
-.orders-table-container {
-  overflow-x: auto;
-}
-
-.orders-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.orders-table th,
-.orders-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid var(--light-gray);
-}
-
-.orders-table th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  color: var(--secondary);
-}
-
-.status-badge {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.status-đang {
-  background-color: #fff8e1;
-  color: #ffa000;
-}
-
-.status-đã {
-  background-color: #e8f5e9;
-  color: #388e3c;
-}
-
-.status-hủy {
-  background-color: #ffebee;
-  color: #d32f2f;
-}
-
-.btn-view {
-  background-color: var(--secondary);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-}
-
-.no-orders, .no-items {
-  text-align: center;
-  padding: 24px;
-  color: var(--gray);
-}
-
-/* Popular Items */
-.popular-items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-}
-
-.popular-item {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.popular-item-image {
-  height: 120px;
-  overflow: hidden;
-}
-
-.popular-item-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.popular-item-info {
-  padding: 12px;
-}
-
-.popular-item-info h3 {
-  margin: 0 0 8px;
-  font-size: 1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.popular-item-price {
-  color: var(--primary);
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.popular-item-stats {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--gray);
-}
-
-.stats-icon {
-  margin-right: 4px;
-}
-
-.view-all-link {
-  text-align: right;
-  margin-top: 16px;
-}
-
-.view-all-link a {
-  color: var(--primary);
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 576px) {
+  .stats-grid {
+    grid-template-columns: repeat(1, 250px);
+  }
+  
+  .dashboard-container {
+    padding: 0 16px;
+  }
+  
   .admin-content {
     margin-left: 0;
-  }
-  
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .popular-items-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>
