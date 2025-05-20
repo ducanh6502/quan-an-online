@@ -43,10 +43,12 @@ async function handleLogin() {
         <p>Hệ thống quản lý dành cho Admin</p>
       </div>
       
+      <!-- Hiển thị thông báo lỗi -->
       <div v-if="error" class="error-message">
         {{ error }}
       </div>
       
+      <!-- Form đăng nhập admin -->
       <form @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="username">Tên đăng nhập</label>
@@ -83,6 +85,7 @@ async function handleLogin() {
         </button>
       </form>
       
+      <!-- Nút quay lại trang chủ -->
       <div class="back-link">
         <a href="/" class="btn btn-secondary">Quay lại trang chủ</a>
       </div>
@@ -91,6 +94,7 @@ async function handleLogin() {
 </template>
 
 <style scoped>
+/* Container đăng nhập admin */
 .admin-login-container {
   display: flex;
   justify-content: center;
@@ -98,13 +102,13 @@ async function handleLogin() {
   min-height: 100vh;
   background-color: #f8f9fa;
 }
-
+/* Form đăng nhập admin */
 .admin-login-form {
   width: 100%;
   max-width: 400px;
   padding: 32px;
 }
-
+/* Logo và mô tả admin */
 .admin-logo {
   text-align: center;
   margin-bottom: 32px;
@@ -128,7 +132,7 @@ async function handleLogin() {
   margin-bottom: 8px;
   font-weight: 500;
 }
-
+/* Hiển thị thông báo lỗi */
 .error-message {
   background-color: #ffebee;
   color: #c62828;
@@ -137,13 +141,13 @@ async function handleLogin() {
   margin-bottom: 20px;
   text-align: center;
 }
-
+/* Nút đăng nhập */
 .btn-block {
   width: 100%;
   padding: 12px;
   font-size: 1rem;
 }
-
+/* Nút quay lại */
 .back-link {
   margin-top: 24px;
   text-align: center;

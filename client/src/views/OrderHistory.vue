@@ -15,7 +15,7 @@ onMounted(async () => {
     const response = await axios.get('/api/orders/user/my-orders');
     orders.value = response.data;
     
-    // Highlight new order if redirected from checkout
+    // Làm nổi bật đơn hàng mới nếu vừa chuyển hướng từ trang thanh toán
     const newOrderId = route.query.new;
     if (newOrderId) {
       const orderElement = document.getElementById(`order-${newOrderId}`);
@@ -38,18 +38,18 @@ onMounted(async () => {
   <div class="order-history-page">
     <div class="container">
       <h1>Lịch sử đơn hàng</h1>
-      
+      <!-- Hiển thị khi đang tải dữ liệu... -->
       <div v-if="isLoading" class="loading">
         <div class="spinner"></div>
         <p>Đang tải dữ liệu...</p>
       </div>
-      
+      <!-- Hiển thị khi không có đơn hàng nào -->
       <div v-else-if="orders.length === 0" class="no-orders">
         <h2>Chưa có đơn hàng nào</h2>
         <p>Bạn chưa có đơn hàng nào. Hãy đặt món ngay!</p>
         <router-link to="/menu" class="btn btn-primary">Xem thực đơn</router-link>
       </div>
-      
+      <!-- Hiển thị danh sách đơn hàng -->
       <div v-else class="orders-list">
         <div 
           v-for="order in orders" 
@@ -78,7 +78,7 @@ onMounted(async () => {
               <div class="item-price">{{ item.price.toLocaleString() }}đ</div>
             </div>
           </div>
-          
+          <!-- Thông tin giao hàng và tổng tiền -->
           <div class="order-footer">
             <div class="delivery-info">
               <p><strong>Địa chỉ:</strong> {{ order.address }}</p>
@@ -186,7 +186,7 @@ h1 {
   font-size: 0.85rem;
   font-weight: 600;
 }
-
+/* Trạng thái đơn hàng */
 .status-đang.xử.lý {
   background-color: #fff8e1;
   color: #ffa000;
@@ -264,7 +264,7 @@ h1 {
   font-size: 1.2rem;
   color: var(--primary);
 }
-
+/* Hiệu ứng nổi bật đơn hàng mới */
 .highlight {
   animation: highlight 2s ease-out;
 }

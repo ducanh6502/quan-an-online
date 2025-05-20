@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const reviewsFilePath = path.join(__dirname, '../data/reviews.json');
 
-// Get all reviews
+// Lấy tất cả đánh giá
 export const getAllReviews = async () => {
   try {
     const data = await fs.readFile(reviewsFilePath, 'utf8');
@@ -17,7 +17,7 @@ export const getAllReviews = async () => {
   }
 };
 
-// Get review by ID
+// Lấy đánh giá theo ID
 export const getReviewById = async (id) => {
   try {
     const reviews = await getAllReviews();
@@ -28,7 +28,7 @@ export const getReviewById = async (id) => {
   }
 };
 
-// Get reviews by food ID
+// Lấy đánh giá theo ID món ăn
 export const getReviewsByFoodId = async (foodId) => {
   try {
     const reviews = await getAllReviews();
@@ -39,7 +39,7 @@ export const getReviewsByFoodId = async (foodId) => {
   }
 };
 
-// Get reviews by user ID
+// Lấy đánh giá theo ID người dùng
 export const getReviewsByUserId = async (userId) => {
   try {
     const reviews = await getAllReviews();
@@ -50,19 +50,19 @@ export const getReviewsByUserId = async (userId) => {
   }
 };
 
-// Create new review
+// Tạo đánh giá mới
 export const createReview = async (reviewData) => {
   try {
     const reviews = await getAllReviews();
     
-    // Create new review
+    // Tạo đánh giáá
     const newReview = {
       id: Date.now().toString(),
       ...reviewData,
       createdAt: new Date().toISOString()
     };
     
-    // Add to reviews array and save
+    // Thêm vào mảng đánh giá và lưu lại
     reviews.push(newReview);
     await fs.writeFile(reviewsFilePath, JSON.stringify(reviews, null, 2));
     
@@ -73,7 +73,7 @@ export const createReview = async (reviewData) => {
   }
 };
 
-// Update review
+// Cập nhật đánh giá
 export const updateReview = async (id, updateData) => {
   try {
     const reviews = await getAllReviews();
@@ -83,7 +83,7 @@ export const updateReview = async (id, updateData) => {
       throw new Error('Không tìm thấy đánh giá');
     }
     
-    // Update review data
+    // Cập nhật dữ liệu đánh giá
     reviews[reviewIndex] = {
       ...reviews[reviewIndex],
       ...updateData
@@ -98,7 +98,7 @@ export const updateReview = async (id, updateData) => {
   }
 };
 
-// Delete review
+// Xóa đánh giá
 export const deleteReview = async (id) => {
   try {
     let reviews = await getAllReviews();
@@ -108,7 +108,7 @@ export const deleteReview = async (id) => {
       throw new Error('Không tìm thấy đánh giá');
     }
     
-    // Filter out the review to delete
+    // Loại bỏ đánh giá cần xóa khỏi mảng
     reviews = reviews.filter(review => review.id !== id);
     
     await fs.writeFile(reviewsFilePath, JSON.stringify(reviews, null, 2));

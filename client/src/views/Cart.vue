@@ -101,7 +101,7 @@ function continueShopping() {
           </div>
           
           <button @click="proceedToCheckout" class="btn btn-primary checkout-btn">
-            Tiến hành thanh toán
+            Đặt đơn hàng
           </button>
           
           <button @click="continueShopping" class="btn btn-secondary continue-btn">

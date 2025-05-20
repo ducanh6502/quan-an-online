@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const usersFilePath = path.join(__dirname, '../data/users.json');
 
-// Get all users
+// Lấy danh sách tất cả người dùng
 export const getAllUsers = async () => {
   try {
     const data = await fs.readFile(usersFilePath, 'utf8');
@@ -18,7 +18,7 @@ export const getAllUsers = async () => {
   }
 };
 
-// Get user by ID
+// Lấy người dùng theo ID
 export const getUserById = async (id) => {
   try {
     const users = await getAllUsers();
@@ -29,7 +29,7 @@ export const getUserById = async (id) => {
   }
 };
 
-// Get user by email
+// Lấy người dùng theo email
 export const getUserByEmail = async (email) => {
   try {
     const users = await getAllUsers();
@@ -40,22 +40,22 @@ export const getUserByEmail = async (email) => {
   }
 };
 
-// Create new user
+// Tạo người dùng mới
 export const createUser = async (userData) => {
   try {
     const users = await getAllUsers();
     
-    // Check if email already exists
+    // Kiểm tra email đã tồn tại chưa
     const existingUser = users.find(user => user.email === userData.email);
     if (existingUser) {
       throw new Error('Email đã tồn tại');
     }
     
-    // Hash password
+    // Mã hóa mật khẩu
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(userData.password, salt);
     
-    // Create new user
+    // Tạo người dùng mới
     const newUser = {
       id: Date.now().toString(),
       ...userData,
@@ -63,11 +63,11 @@ export const createUser = async (userData) => {
       createdAt: new Date().toISOString()
     };
     
-    // Add to users array and save
+    // Thêm vào mảng người dùng và lưu lại
     users.push(newUser);
     await fs.writeFile(usersFilePath, JSON.stringify(users, null, 2));
     
-    // Return user data without password
+    // Trả về dữ liệu người dùng không bao gồm mật khẩu
     const { password, ...userWithoutPassword } = newUser;
     return userWithoutPassword;
   } catch (error) {
@@ -76,7 +76,7 @@ export const createUser = async (userData) => {
   }
 };
 
-// Update user
+// Cập nhật người dùng
 export const updateUser = async (id, updateData) => {
   try {
     const users = await getAllUsers();
@@ -86,13 +86,13 @@ export const updateUser = async (id, updateData) => {
       throw new Error('Không tìm thấy người dùng');
     }
     
-    // If updating password, hash it
+    // Nếu cập nhật mật khẩu thì mã hóa lại
     if (updateData.password) {
       const salt = await bcrypt.genSalt(10);
       updateData.password = await bcrypt.hash(updateData.password, salt);
     }
     
-    // Update user data
+    // Cập nhật dữ liệu người dùng
     users[userIndex] = {
       ...users[userIndex],
       ...updateData
@@ -100,7 +100,7 @@ export const updateUser = async (id, updateData) => {
     
     await fs.writeFile(usersFilePath, JSON.stringify(users, null, 2));
     
-    // Return updated user without password
+    // Trả về dữ liệu người dùng không bao gồm mật khẩu
     const { password, ...userWithoutPassword } = users[userIndex];
     return userWithoutPassword;
   } catch (error) {
@@ -109,7 +109,7 @@ export const updateUser = async (id, updateData) => {
   }
 };
 
-// Verify password
+// Xác thực mật khẩu
 export const verifyPassword = async (plainPassword, hashedPassword) => {
   return await bcrypt.compare(plainPassword, hashedPassword);
 };

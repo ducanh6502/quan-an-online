@@ -6,6 +6,7 @@ import FoodCard from '../components/food/FoodCard.vue';
 const popularFoods = ref([]);
 const isLoading = ref(true);
 
+// Lấy danh sách món ăn nổi bật khi trang được tải
 onMounted(async () => {
   try {
     const response = await axios.get('/api/foods/popular');
@@ -20,7 +21,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <!-- Hero Section -->
+    <!-- Phần giới thiệu -->
     <section class="hero">
       <div class="container">
         <div class="hero-content">
@@ -31,16 +32,19 @@ onMounted(async () => {
       </div>
     </section>
 
-    <!-- Popular Foods Section -->
+    <!-- Phần món ăn nổi bật -->
     <section class="popular-foods">
       <div class="container">
         <h2 class="section-title">Món ăn nổi bật</h2>
+        <!-- Hiển thị khi đang tải dữ liệu món ăn nổi bật -->
         <div v-if="isLoading" class="loading-spinner">
           <div class="spinner"></div>
         </div>
+        <!-- Hiển thị khi không có món ăn nổi bật -->
         <div v-else-if="popularFoods.length === 0" class="no-foods">
           <p>Chưa có món ăn nào.</p>
         </div>
+        <!-- Hiển thị danh sách món ăn nổi bật -->
         <div v-else class="foods-grid">
           <FoodCard 
             v-for="food in popularFoods" 
@@ -48,13 +52,14 @@ onMounted(async () => {
             :food="food" 
           />
         </div>
+        <!-- Nút xem tất cả món ăn -->
         <div class="view-all">
           <router-link to="/menu" class="btn btn-secondary">Xem tất cả món ăn</router-link>
         </div>
       </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Phần tính năng nổi bật của quán -->
     <section class="features">
       <div class="container">
         <h2 class="section-title">Tại sao chọn chúng tôi?</h2>
@@ -89,6 +94,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+/* Phần giới thiệu */
 .hero {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
   background-size: cover;
@@ -140,6 +146,7 @@ onMounted(async () => {
   transform: translateX(-50%);
 }
 
+/* Phần món ăn nổi bật */
 .popular-foods {
   padding: 48px 0;
 }
@@ -176,6 +183,7 @@ onMounted(async () => {
   margin-top: 32px;
 }
 
+/* Phần tính năng nổi bật */
 .features {
   padding: 48px 0;
   background-color: var(--light-gray);

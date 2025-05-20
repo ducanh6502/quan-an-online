@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Import routes
+// Import các route
 import userRoutes from './routes/users.js';
 import foodRoutes from './routes/foods.js';
 import categoryRoutes from './routes/categories.js';
@@ -12,11 +12,11 @@ import orderRoutes from './routes/orders.js';
 import reviewRoutes from './routes/reviews.js';
 import adminRoutes from './routes/admin.js';
 
-// Create Express app
+// Khởi tạo ứng dụng Express
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Get current file directory
+// Lấy thư mục hiện tại của file
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -25,10 +25,10 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Serve uploads folder
+// Phục vụ thư mục uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Routes
+// Định nghĩa các route API
 app.use('/api/users', userRoutes);
 app.use('/api/foods', foodRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -36,7 +36,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Serve static assets in production
+// Phục vụ file tĩnh khi ở môi trường production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
   
@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Error handling middleware
+// Middleware xử lý lỗi
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start the server
+// Khởi động server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

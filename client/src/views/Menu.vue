@@ -12,12 +12,12 @@ const selectedCategory = ref('all');
 const filteredFoods = computed(() => {
   let result = foods.value;
   
-  // Filter by category
+  // Lọc theo danh mục
   if (selectedCategory.value !== 'all') {
     result = result.filter(food => food.category === selectedCategory.value);
   }
   
-  // Filter by search query
+  // Lọc theo từ khóa tìm kiếm
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim();
     result = result.filter(food => 
@@ -29,6 +29,7 @@ const filteredFoods = computed(() => {
   return result;
 });
 
+// Tải dữ liệu món ăn và danh mục khi trang được tải
 onMounted(async () => {
   try {
     const [foodsRes, categoriesRes] = await Promise.all([
@@ -53,7 +54,7 @@ onMounted(async () => {
         <h1>Thực đơn</h1>
         
         <div class="filter-container">
-          <!-- Search Box -->
+          <!-- Ô tìm kiếm -->
           <div class="search-box">
             <input 
               type="text" 
@@ -63,7 +64,7 @@ onMounted(async () => {
             />
           </div>
           
-          <!-- Category Filter -->
+          <!-- Bộ lọc danh mục -->
           <div class="category-filter">
             <select v-model="selectedCategory" class="form-control">
               <option value="all">Tất cả danh mục</option>
@@ -79,11 +80,13 @@ onMounted(async () => {
         </div>
       </div>
       
+      <!-- Hiển thị khi đang tải thực đơn -->
       <div v-if="isLoading" class="loading">
         <div class="spinner"></div>
         <p>Đang tải thực đơn...</p>
       </div>
       
+      <!-- Hiển thị khi không tìm thấy món ăn phù hợp -->
       <div v-else-if="filteredFoods.length === 0" class="no-results">
         <p>Không tìm thấy món ăn phù hợp.</p>
         <button @click="selectedCategory = 'all'; searchQuery = ''" class="btn btn-primary">
@@ -91,6 +94,7 @@ onMounted(async () => {
         </button>
       </div>
       
+      <!-- Hiển thị danh sách món ăn -->
       <div v-else class="foods-grid">
         <FoodCard 
           v-for="food in filteredFoods" 
@@ -128,7 +132,7 @@ onMounted(async () => {
 .search-box, .category-filter {
   flex: 1;
 }
-
+/* Lưới hiển thị món ăn */
 .foods-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -139,7 +143,7 @@ onMounted(async () => {
   text-align: center;
   padding: 48px 0;
 }
-
+/* Hiệu ứng loading spinner */
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;

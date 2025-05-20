@@ -25,7 +25,7 @@ async function handleLogin() {
   try {
     const success = await authStore.login(email.value, password.value);
     if (success) {
-      // Redirect to previous intended route or home
+      // Chuyển hướng về trang trước đó hoặc trang chủ
       const redirectPath = route.query.redirect || '/';
       router.push(redirectPath);
     }
@@ -43,10 +43,12 @@ async function handleLogin() {
     <div class="auth-form card">
       <h1>Đăng nhập</h1>
       
+      <!-- Hiển thị thông báo lỗi -->
       <div v-if="error" class="error-message">
         {{ error }}
       </div>
-      
+
+      <!-- Form đăng nhập -->
       <form @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="email">Email</label>
@@ -81,6 +83,7 @@ async function handleLogin() {
         </button>
       </form>
       
+      <!-- Liên kết đăng ký và đăng nhập admin -->
       <div class="auth-links">
         <p>Chưa có tài khoản? <router-link to="/register">Đăng ký ngay</router-link></p>
         <p class="admin-link">
@@ -123,7 +126,7 @@ async function handleLogin() {
   margin-bottom: 8px;
   font-weight: 500;
 }
-
+/* Hiển thị thông báo lỗi */
 .error-message {
   background-color: #ffebee;
   color: #c62828;
@@ -132,13 +135,13 @@ async function handleLogin() {
   margin-bottom: 20px;
   text-align: center;
 }
-
+/* Nút đăng nhập */
 .btn-block {
   width: 100%;
   padding: 12px;
   font-size: 1rem;
 }
-
+/* Liên kết đăng ký và đăng nhập admin */
 .auth-links {
   margin-top: 24px;
   text-align: center;

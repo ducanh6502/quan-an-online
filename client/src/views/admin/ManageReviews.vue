@@ -12,22 +12,22 @@ const showModal = ref(false);
 const replyText = ref('');
 const isSubmitting = ref(false);
 
-// Filters
+// Bộ lọc
 const filterByRating = ref('all');
 const searchQuery = ref('');
 const sortBy = ref('newest');
 
-// Computed filtered reviews
+// Danh sách đánh giá đã lọc và sắp xếp
 const filteredReviews = computed(() => {
   let result = [...reviews.value];
   
-  // Filter by rating
+  // Lọc theo số sao (rating)
   if (filterByRating.value !== 'all') {
     const rating = parseInt(filterByRating.value);
     result = result.filter(review => review.rating === rating);
   }
   
-  // Filter by search text
+  // Lọc theo từ khóa tìm kiếm
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim();
     result = result.filter(review => 
@@ -37,7 +37,7 @@ const filteredReviews = computed(() => {
     );
   }
   
-  // Sort reviews
+  // Sắp xếp đánh giá
   if (sortBy.value === 'newest') {
     result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   } else if (sortBy.value === 'oldest') {
@@ -51,12 +51,12 @@ const filteredReviews = computed(() => {
   return result;
 });
 
-// Load reviews data
+// Tải dữ liệu đánh giá
 onMounted(async () => {
   try {
     const response = await axios.get('/api/reviews');
     
-    // Fetch food details for each review
+    // Lấy thông tin món ăn cho từng đánh giá
     const reviewsWithFood = await Promise.all(
       response.data.map(async (review) => {
         try {
@@ -85,21 +85,21 @@ onMounted(async () => {
   }
 });
 
-// Open reply modal
+// Mở modal phản hồi
 function openReplyModal(review) {
   selectedReview.value = review;
   replyText.value = review.adminReply || '';
   showModal.value = true;
 }
 
-// Close modal
+// Đóng modal
 function closeModal() {
   showModal.value = false;
   selectedReview.value = null;
   replyText.value = '';
 }
 
-// Submit reply
+// Gửi phản hồi
 async function submitReply() {
   if (!replyText.value.trim()) {
     toast.error('Vui lòng nhập nội dung phản hồi');
@@ -113,7 +113,7 @@ async function submitReply() {
       adminReply: replyText.value.trim()
     });
     
-    // Update review in the list
+    // Cập nhật phản hồi trong danh sách
     const index = reviews.value.findIndex(r => r.id === selectedReview.value.id);
     if (index !== -1) {
       reviews.value[index].adminReply = response.data.adminReply;
@@ -129,7 +129,7 @@ async function submitReply() {
   }
 }
 
-// Delete review
+// Xóa đánh giá
 async function deleteReview(review) {
   if (!confirm(`Bạn có chắc chắn muốn xóa đánh giá này không?`)) {
     return;
@@ -138,7 +138,7 @@ async function deleteReview(review) {
   try {
     await axios.delete(`/api/reviews/${review.id}`);
     
-    // Remove from list
+    // Xóa khỏi danh sách
     reviews.value = reviews.value.filter(r => r.id !== review.id);
     
     toast.success('Xóa đánh giá thành công');
@@ -253,7 +253,7 @@ async function deleteReview(review) {
         </div>
       </div>
       
-      <!-- Reply Modal -->
+      <!-- Modal phản hồi đánh giá -->
       <div v-if="showModal && selectedReview" class="modal-overlay">
         <div class="modal-content">
           <div class="modal-header">

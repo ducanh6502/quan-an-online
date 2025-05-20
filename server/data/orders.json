@@ -114,5 +114,45 @@
     "paymentMethod": "Tiền mặt",
     "status": "Đang giao hàng",
     "createdAt": "2025-05-12T20:03:25.126Z"
+  },
+  {
+    "id": "1747216535749",
+    "userId": "2",
+    "items": [
+      {
+        "id": "2",
+        "name": "Cơm Tấm Sườn Bì Chả",
+        "price": 65000,
+        "image": "https://i-giadinh.vnecdn.net/2024/03/07/7Honthinthnhphm1-1709800144-8583-1709800424.jpg",
+        "quantity": 1
+      },
+      {
+        "id": "3",
+        "name": "Bún Bò Huế",
+        "price": 70000,
+        "image": "https://i.ytimg.com/vi/CSI9ildGX9s/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCxhRIyoYY7k9ZuxY0YOC9jNFLapg",
+        "quantity": 3
+      },
+      {
+        "id": "4",
+        "name": "Gỏi Cuốn Tôm Thịt",
+        "price": 50000,
+        "image": "https://heyyofoods.com/wp-content/uploads/2024/03/4-4.jpg",
+        "quantity": 5
+      },
+      {
+        "id": "1",
+        "name": "Phở Bò Đặc Biệt",
+        "price": 75000,
+        "image": "https://i.ytimg.com/vi/99tOr7JSr0k/sddefault.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 600000,
+    "address": "đấu đó ở Hà Nội",
+    "phone": "0123456789",
+    "paymentMethod": "Tiền mặt",
+    "status": "Đang xử lý",
+    "createdAt": "2025-05-14T09:55:35.749Z"
   }
 ]

@@ -39,7 +39,7 @@ async function updateProfile() {
   try {
     const response = await axios.put('/api/users/profile', form.value);
     
-    // Update local user data
+    // Cập nhật dữ liệu người dùng ở local
     authStore.user = response.data.user;
     
     toast.success('Cập nhật thông tin thành công');
@@ -70,7 +70,7 @@ async function changePassword() {
       newPassword: newPassword.value
     });
     
-    // Reset password fields
+    // Đặt lại các trường mật khẩu
     currentPassword.value = '';
     newPassword.value = '';
     confirmPassword.value = '';
@@ -91,7 +91,7 @@ async function changePassword() {
       <h1>Thông tin tài khoản</h1>
       
       <div class="profile-content">
-        <!-- Profile Information -->
+        <!-- Thông tin cá nhân -->
         <div class="profile-section card">
           <h2>Thông tin cá nhân</h2>
           
@@ -140,7 +140,7 @@ async function changePassword() {
           </button>
         </div>
         
-        <!-- Change Password -->
+        <!-- Đổi mật khẩu -->
         <div class="profile-section card">
           <h2>Đổi mật khẩu</h2>
           
@@ -194,6 +194,7 @@ async function changePassword() {
 </template>
 
 <style scoped>
+/* Trang thông tin tài khoản */
 .profile-page {
   padding: 32px 0;
 }
@@ -203,7 +204,7 @@ h1 {
   margin-bottom: 32px;
   color: var(--secondary);
 }
-
+/* Nội dung thông tin tài khoản */
 .profile-content {
   display: grid;
   grid-template-columns: 1fr;
@@ -211,7 +212,7 @@ h1 {
   max-width: 800px;
   margin: 0 auto;
 }
-
+/* Phần thông tin cá nhân và đổi mật khẩu */
 .profile-section {
   padding: 24px;
 }
@@ -237,7 +238,7 @@ h1 {
   width: 100%;
   margin-top: 8px;
 }
-
+/* Responsive: chia 2 cột khi màn hình lớn */
 @media (min-width: 768px) {
   .profile-content {
     grid-template-columns: repeat(2, 1fr);

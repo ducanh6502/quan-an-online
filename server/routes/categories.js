@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-// Get all categories
+// Lấy danh sách tất cả danh mục món ăn
 router.get('/', async (req, res) => {
   try {
     const categories = await getAllCategories();
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get category by ID
+// Lấy danh mục theo ID
 router.get('/:id', async (req, res) => {
   try {
     const category = await getCategoryById(req.params.id);
@@ -33,7 +33,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create category (admin only)
+// Tạo danh mục mới (chỉ admin)
 router.post('/', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { name } = req.body;
@@ -48,7 +48,7 @@ router.post('/', authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Update category (admin only)
+// Cập nhật danh mục (chỉ admin)
 router.put('/:id', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { name } = req.body;
@@ -63,7 +63,7 @@ router.put('/:id', authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Delete category (admin only)
+// Xóa danh mục (chỉ admin)
 router.delete('/:id', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     await deleteCategory(req.params.id);

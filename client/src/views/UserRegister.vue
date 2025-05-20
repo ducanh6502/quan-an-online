@@ -22,7 +22,7 @@ async function handleRegister() {
   error.value = '';
   isLoading.value = true;
   
-  // Validate form
+  // Kiểm tra tính hợp lệ của form (báo nếu người dùng nhập thiếu hoặc ko hợp lệ)
   if (!form.value.name || !form.value.email || !form.value.password || 
       !form.value.confirmPassword || !form.value.phone || !form.value.address) {
     error.value = 'Vui lòng nhập đầy đủ thông tin';
@@ -58,10 +58,12 @@ async function handleRegister() {
     <div class="auth-form card">
       <h1>Đăng ký</h1>
       
+      <!-- Hiển thị thông báo lỗi -->
       <div v-if="error" class="error-message">
         {{ error }}
       </div>
       
+      <!-- Form đăng ký -->
       <form @submit.prevent="handleRegister">
         <div class="form-group">
           <label for="name">Họ tên</label>
@@ -144,6 +146,7 @@ async function handleRegister() {
         </button>
       </form>
       
+      <!-- Liên kết chuyển sang đăng nhập -->
       <div class="auth-links">
         <p>Đã có tài khoản? <router-link to="/login">Đăng nhập ngay</router-link></p>
       </div>
@@ -180,7 +183,7 @@ async function handleRegister() {
   margin-bottom: 8px;
   font-weight: 500;
 }
-
+/* Hiển thị thông báo lỗi */
 .error-message {
   background-color: #ffebee;
   color: #c62828;
@@ -189,13 +192,13 @@ async function handleRegister() {
   margin-bottom: 20px;
   text-align: center;
 }
-
+/* Nút đăng ký */
 .btn-block {
   width: 100%;
   padding: 12px;
   font-size: 1rem;
 }
-
+/* Liên kết chuyển sang đăng nhập */
 .auth-links {
   margin-top: 24px;
   text-align: center;

@@ -10,11 +10,11 @@ import { authMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Public routes
+// Các route công khai
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
-// Protected routes
+// Các route bảo vệ (cần đăng nhập)
 router.get('/profile', authMiddleware, getUserProfile);
 router.put('/profile', authMiddleware, updateUserProfile);
 router.put('/change-password', authMiddleware, changePassword);

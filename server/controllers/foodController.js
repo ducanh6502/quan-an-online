@@ -85,16 +85,16 @@ export const editFood = async (req, res) => {
   try {
     const { name, description, price, category, popular, image } = req.body;
     
-    // Get existing food
+    // Lấy món ăn hiện tại
     const existingFood = await getFoodById(req.params.id);
     if (!existingFood) {
       return res.status(404).json({ message: 'Không tìm thấy món ăn' });
     }
     
-    
+    // Xử lý hình ảnh mới nếu có
     let imageUrl = image || existingFood.image;
     if (req.file) {
-    
+    // Xóa ảnh cũ nếu là ảnh local
       if (existingFood.image?.startsWith('/uploads/')) {
         try {
           const oldImagePath = path.join(__dirname, '..', existingFood.image);

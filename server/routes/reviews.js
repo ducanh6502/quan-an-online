@@ -13,7 +13,7 @@ import { getFoodById, updateFood } from '../models/foodModel.js';
 
 const router = express.Router();
 
-// Get all reviews (admin only)
+// Lấy tất cả đánh giá (chỉ admin)
 router.get('/', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const reviews = await getAllReviews();
@@ -23,7 +23,7 @@ router.get('/', authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Get reviews by food ID
+// Lấy đánh giá theo ID món ăn
 router.get('/food/:foodId', async (req, res) => {
   try {
     const reviews = await getReviewsByFoodId(req.params.foodId);
@@ -33,7 +33,7 @@ router.get('/food/:foodId', async (req, res) => {
   }
 });
 
-// Get reviews by user ID
+// Lấy đánh giá theo ID người dùng
 router.get('/user', authMiddleware, async (req, res) => {
   try {
     const reviews = await getReviewsByUserId(req.user.id);
@@ -43,23 +43,23 @@ router.get('/user', authMiddleware, async (req, res) => {
   }
 });
 
-// Create new review
+// Tạo đánh giá mới
 router.post('/', authMiddleware, async (req, res) => {
   try {
     const { foodId, rating, comment } = req.body;
     
-    // Validate input
+    // Kiểm tra dữ liệu đầu vào
     if (!foodId || !rating || !comment) {
       return res.status(400).json({ message: 'Vui lòng nhập đầy đủ thông tin' });
     }
     
-    // Check if food exists
+    // Kiểm tra món ăn có tồn tại không
     const food = await getFoodById(foodId);
     if (!food) {
       return res.status(404).json({ message: 'Không tìm thấy món ăn' });
     }
     
-    // Create new review
+    // Tạo đánh giá mới
     const newReview = await createReview({
       userId: req.user.id,
       foodId,
@@ -68,7 +68,7 @@ router.post('/', authMiddleware, async (req, res) => {
       userName: req.user.name
     });
     
-    // Update food rating
+    // Cập nhật điểm đánh giá của món ăn
     const allReviews = await getReviewsByFoodId(foodId);
     const totalRating = allReviews.reduce((sum, review) => sum + review.rating, 0);
     const averageRating = totalRating / allReviews.length;
@@ -81,7 +81,7 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
-// Update review (admin reply or user edit)
+// Cập nhật đánh giá (admin trả lời hoặc người dùng sửa)
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const review = await getReviewById(req.params.id);
@@ -90,19 +90,19 @@ router.put('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Không tìm thấy đánh giá' });
     }
     
-    // Check if user is admin or review owner
+    // Kiểm tra quyền: chỉ admin hoặc chủ đánh giá mới được sửa
     if (!req.user.isAdmin && review.userId !== req.user.id) {
       return res.status(403).json({ message: 'Không có quyền chỉnh sửa đánh giá này' });
     }
     
-    // Update review
+    // Cập nhật đánh giá
     let updateData = {};
     
     if (req.user.isAdmin) {
-      // Admin can add a reply
+      // Admin có thể trả lời đánh giá
       updateData = { adminReply: req.body.adminReply };
     } else {
-      // User can edit their own review
+      // Người dùng có thể sửa đánh giá của mình
       if (!req.body.rating || !req.body.comment) {
         return res.status(400).json({ message: 'Vui lòng nhập đầy đủ thông tin' });
       }
@@ -112,9 +112,9 @@ router.put('/:id', authMiddleware, async (req, res) => {
         comment: req.body.comment
       };
       
-      // Update food rating
+      // Cập nhật điểm đánh giá của món ăn
       const allReviews = await getReviewsByFoodId(review.foodId);
-      // Update the current review in the array for calculation
+      // Cập nhật điểm đánh giá mới vào mảng để tính trung bình
       const updatedReviews = allReviews.map(r => 
         r.id === review.id ? { ...r, rating: parseInt(req.body.rating) } : r
       );
@@ -133,7 +133,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// Delete review (admin or owner)
+// Xóa đánh giá (admin hoặc chủ đánh giá)
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const review = await getReviewById(req.params.id);
@@ -142,14 +142,14 @@ router.delete('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Không tìm thấy đánh giá' });
     }
     
-    // Check if user is admin or review owner
+    // Kiểm tra quyền: chỉ admin hoặc chủ đánh giá mới được xóa
     if (!req.user.isAdmin && review.userId !== req.user.id) {
       return res.status(403).json({ message: 'Không có quyền xóa đánh giá này' });
     }
     
     await deleteReview(req.params.id);
     
-    // Update food rating
+    // Cập nhật điểm đánh giá của món ăn
     const allReviews = await getReviewsByFoodId(review.foodId);
     
     if (allReviews.length > 0) {
@@ -157,7 +157,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
       const averageRating = totalRating / allReviews.length;
       await updateFood(review.foodId, { rating: averageRating.toFixed(1) });
     } else {
-      // No reviews left, reset rating to 0
+      // Nếu không còn đánh giá nào, đặt lại điểm về 0
       await updateFood(review.foodId, { rating: 0 });
     }
     

@@ -17,22 +17,22 @@ const isLoading = ref(true);
 const similarFoods = ref([]);
 const quantity = ref(1);
 
-// Review form
+// Form đánh giá của khách hàng
 const reviewForm = ref({
   rating: 5,
   comment: ''
 });
 const isSubmittingReview = ref(false);
 
-// Check if user is authenticated
+// Kiểm tra người dùng đã đăng nhập chưa
 const isLoggedIn = computed(() => authStore.isAuthenticated);
 
-// Load food details and reviews
+// Tải thông tin món ăn và đánh giá
 onMounted(async () => {
   const foodId = route.params.id;
   
   try {
-    // Get food details and reviews in parallel
+    // Lấy thông tin món ăn và đánh giá cùng lúc
     const [foodResponse, reviewsResponse] = await Promise.all([
       axios.get(`/api/foods/${foodId}`),
       axios.get(`/api/reviews/food/${foodId}`)
@@ -41,7 +41,7 @@ onMounted(async () => {
     food.value = foodResponse.data;
     reviews.value = reviewsResponse.data;
     
-    // Get similar foods
+    // Lấy các món ăn tương tự
     const similarResponse = await axios.get('/api/foods');
     similarFoods.value = similarResponse.data
       .filter(f => f.category === food.value.category && f.id !== food.value.id)
@@ -55,7 +55,7 @@ onMounted(async () => {
   }
 });
 
-// Add to cart
+// Thêm vào giỏ hàng
 function addToCart() {
   if (quantity.value < 1) return;
   
@@ -64,7 +64,7 @@ function addToCart() {
   }
 }
 
-// Submit review
+// Gửi đánh giá
 async function submitReview() {
   if (!isLoggedIn.value) {
     toast.error('Vui lòng đăng nhập để đánh giá');
@@ -87,14 +87,14 @@ async function submitReview() {
     
     const response = await axios.post('/api/reviews', reviewData);
     
-    // Add new review to the list
+    // Thêm đánh giá mới vào danh sách
     reviews.value.unshift(response.data);
     
     // Reset form
     reviewForm.value.rating = 5;
     reviewForm.value.comment = '';
     
-    // Update food rating
+    // Cập nhật điểm đánh giá trung bình của món ăn
     food.value.rating = (
       reviews.value.reduce((sum, review) => sum + review.rating, 0) / reviews.value.length
     ).toFixed(1);
@@ -123,7 +123,7 @@ async function submitReview() {
       </div>
       
       <div v-else>
-        <!-- Food Details Section -->
+        <!-- Phần thông tin chi tiết món ăn -->
         <div class="food-details">
           <div class="food-image-container">
             <img :src="food.image" :alt="food.name" class="food-image" />
@@ -168,11 +168,11 @@ async function submitReview() {
           </div>
         </div>
         
-        <!-- Reviews Section -->
+        <!-- Phần đánh giá từ khách hàng -->
         <section class="reviews-section">
           <h2>Đánh giá từ khách hàng</h2>
           
-          <!-- Add Review Form -->
+          <!-- Form thêm đánh giá -->
           <div v-if="isLoggedIn" class="add-review-form card">
             <h3>Thêm đánh giá của bạn</h3>
             
@@ -215,7 +215,7 @@ async function submitReview() {
             <p>Vui lòng <router-link to="/login">đăng nhập</router-link> để đánh giá món ăn này.</p>
           </div>
           
-          <!-- Reviews List -->
+          <!-- Danh sách đánh giá -->
           <div v-if="reviews.length > 0" class="reviews-list">
             <div v-for="review in reviews" :key="review.id" class="review-item card">
               <div class="review-header">
@@ -251,7 +251,7 @@ async function submitReview() {
           </div>
         </section>
         
-        <!-- Similar Foods Section -->
+        <!-- Món ăn tương tự -->
         <section v-if="similarFoods.length > 0" class="similar-foods">
           <h2>Món ăn tương tự</h2>
           
@@ -399,7 +399,7 @@ async function submitReview() {
   padding: 10px 16px;
 }
 
-/* Reviews Section */
+/* Phần đánh giá */
 .reviews-section {
   margin-bottom: 48px;
 }
@@ -516,7 +516,7 @@ async function submitReview() {
   color: var(--gray);
 }
 
-/* Similar Foods Section */
+/* Phần món ăn tương tự */
 .similar-foods h2 {
   margin-bottom: 24px;
   color: var(--secondary);

@@ -4,10 +4,10 @@ import { authMiddleware, adminMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Public routes
+// Các route công khai
 router.post('/login', loginAdmin);
 
-// Protected admin routes
+// Các route dành riêng cho admin (cần xác thực)
 router.get('/dashboard', authMiddleware, adminMiddleware, getDashboardStats);
 
 export default router;

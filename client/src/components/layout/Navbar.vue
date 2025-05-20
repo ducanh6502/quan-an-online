@@ -32,8 +32,8 @@ function logout() {
             <h1>Quán Ăn Online</h1>
           </router-link>
         </div>
-<!-- Menu cho user đã đăng nhập -->
-        <!-- Desktop Menu -->
+<!-- Menu cho người dùng đã đăng nhập -->
+        <!-- Menu trên máy bàn -->
         <div class="nav-links desktop-menu">
           <router-link to="/" class="nav-link">Trang chủ</router-link>
           <router-link to="/menu" class="nav-link">Thực đơn</router-link>
@@ -55,7 +55,7 @@ function logout() {
           </router-link>
         </div>
         
-        <!-- Mobile Menu Toggle Button -->
+        <!-- Nút chuyển đổi menu trên di động -->
         <div class="mobile-menu-toggle" @click="toggleMobileMenu">
           <span></span>
           <span></span>
@@ -63,7 +63,7 @@ function logout() {
         </div>
       </div>
 
-      <!-- Mobile Menu -->
+      <!-- Menu trên điện thoại -->
       <div class="mobile-menu" :class="{ 'active': mobileMenuOpen }">
         <router-link to="/" class="nav-link" @click="mobileMenuOpen = false">Trang chủ</router-link>
         <router-link to="/menu" class="nav-link" @click="mobileMenuOpen = false">Thực đơn</router-link>

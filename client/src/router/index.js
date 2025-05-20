@@ -64,7 +64,8 @@ const router = createRouter({
   routes
 });
 
-// Navigation guards
+// Bộ bảo vệ điều hướng (Navigation guards), để kiểm soát truy cập routes
+// Kiểm tra quyền truy cập vào các route dựa trên trạng thái xác thực
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
   

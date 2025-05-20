@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ordersFilePath = path.join(__dirname, '../data/orders.json');
 
-// Get all orders
+// Lấy tất cả danh sách đơn hàng
 export const getAllOrders = async () => {
   try {
     const data = await fs.readFile(ordersFilePath, 'utf8');
@@ -17,7 +17,7 @@ export const getAllOrders = async () => {
   }
 };
 
-// Get order by ID
+// Lấy đơn hàng theo ID
 export const getOrderById = async (id) => {
   try {
     const orders = await getAllOrders();
@@ -28,7 +28,7 @@ export const getOrderById = async (id) => {
   }
 };
 
-// Get orders by user ID
+// Lấy đơn hàng theo ID người dùng
 export const getOrdersByUserId = async (userId) => {
   try {
     const orders = await getAllOrders();
@@ -39,12 +39,12 @@ export const getOrdersByUserId = async (userId) => {
   }
 };
 
-// Create new order
+// Tạo đơn đặt hàng mới
 export const createOrder = async (orderData) => {
   try {
     const orders = await getAllOrders();
     
-    // Create new order
+    // Tạo đơn mới
     const newOrder = {
       id: Date.now().toString(),
       ...orderData,
@@ -52,7 +52,7 @@ export const createOrder = async (orderData) => {
       createdAt: new Date().toISOString()
     };
     
-    // Add to orders array and save
+    // Thêm vào mảng đơn hàng và lưu lại
     orders.push(newOrder);
     await fs.writeFile(ordersFilePath, JSON.stringify(orders, null, 2));
     
@@ -63,7 +63,7 @@ export const createOrder = async (orderData) => {
   }
 };
 
-// Update order
+// Cập nhật đơn hàng
 export const updateOrder = async (id, updateData) => {
   try {
     const orders = await getAllOrders();
@@ -73,7 +73,7 @@ export const updateOrder = async (id, updateData) => {
       throw new Error('Không tìm thấy đơn hàng');
     }
     
-    // Update order data
+    // Cập nhật dữ liệu đơn hàng
     orders[orderIndex] = {
       ...orders[orderIndex],
       ...updateData

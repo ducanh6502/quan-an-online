@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const categoriesFilePath = path.join(__dirname, '../data/categories.json');
 
-// Get all categories
+// Lấy tất cả danh mục
 export const getAllCategories = async () => {
   try {
     const data = await fs.readFile(categoriesFilePath, 'utf8');
@@ -17,7 +17,7 @@ export const getAllCategories = async () => {
   }
 };
 
-// Get category by ID
+// Lấy danh mục theo ID
 export const getCategoryById = async (id) => {
   try {
     const categories = await getAllCategories();
@@ -28,19 +28,19 @@ export const getCategoryById = async (id) => {
   }
 };
 
-// Create new category
+// Tạo danh mục mới
 export const createCategory = async (categoryData) => {
   try {
     const categories = await getAllCategories();
     
-    // Create new category
+    // Tạo danh mục mới
     const newCategory = {
       id: Date.now().toString(),
       ...categoryData,
       createdAt: new Date().toISOString()
     };
     
-    // Add to categories array and save
+    // Thêm vào mảng danh mục và lưu lại
     categories.push(newCategory);
     await fs.writeFile(categoriesFilePath, JSON.stringify(categories, null, 2));
     
@@ -51,7 +51,7 @@ export const createCategory = async (categoryData) => {
   }
 };
 
-// Update category
+// Cập nhật danh mục
 export const updateCategory = async (id, updateData) => {
   try {
     const categories = await getAllCategories();
@@ -61,7 +61,7 @@ export const updateCategory = async (id, updateData) => {
       throw new Error('Không tìm thấy danh mục');
     }
     
-    // Update category data
+    // Cập nhật dữ liệu danh mục
     categories[categoryIndex] = {
       ...categories[categoryIndex],
       ...updateData
@@ -76,7 +76,7 @@ export const updateCategory = async (id, updateData) => {
   }
 };
 
-// Delete category
+// Xóa danh mục
 export const deleteCategory = async (id) => {
   try {
     let categories = await getAllCategories();
@@ -86,7 +86,7 @@ export const deleteCategory = async (id) => {
       throw new Error('Không tìm thấy danh mục');
     }
     
-    // Filter out the category to delete
+    // Loại bỏ danh mục cần xóa khỏi mảng
     categories = categories.filter(category => category.id !== id);
     
     await fs.writeFile(categoriesFilePath, JSON.stringify(categories, null, 2));

@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const foodsFilePath = path.join(__dirname, '../data/foods.json');
 
-// Get all foods
+// Lấy tất cả món ăn
 export const getAllFoods = async () => {
   try {
     const data = await fs.readFile(foodsFilePath, 'utf8');
@@ -17,7 +17,7 @@ export const getAllFoods = async () => {
   }
 };
 
-// Get food by ID
+// Lấy món ăn theo ID
 export const getFoodById = async (id) => {
   try {
     const foods = await getAllFoods();
@@ -28,7 +28,7 @@ export const getFoodById = async (id) => {
   }
 };
 
-// Get popular foods
+// Lấy các món ăn nổi bật
 export const getPopularFoods = async (limit = 4) => {
   try {
     const foods = await getAllFoods();
@@ -42,12 +42,12 @@ export const getPopularFoods = async (limit = 4) => {
   }
 };
 
-// Create new food
+// Tạo món ăn mới
 export const createFood = async (foodData) => {
   try {
     const foods = await getAllFoods();
     
-    // Create new food
+    // Tạo món ăn mới
     const newFood = {
       id: Date.now().toString(),
       ...foodData,
@@ -56,7 +56,7 @@ export const createFood = async (foodData) => {
       createdAt: new Date().toISOString()
     };
     
-    // Add to foods array and save
+    // Thêm vào mảng món ăn và lưu lại
     foods.push(newFood);
     await fs.writeFile(foodsFilePath, JSON.stringify(foods, null, 2));
     
@@ -67,7 +67,7 @@ export const createFood = async (foodData) => {
   }
 };
 
-// Update food
+// Cập nhật món ăn
 export const updateFood = async (id, updateData) => {
   try {
     const foods = await getAllFoods();
@@ -77,7 +77,7 @@ export const updateFood = async (id, updateData) => {
       throw new Error('Không tìm thấy món ăn');
     }
     
-    // Update food data
+    // Cập nhật dữ liệu món ăn
     foods[foodIndex] = {
       ...foods[foodIndex],
       ...updateData
@@ -92,7 +92,7 @@ export const updateFood = async (id, updateData) => {
   }
 };
 
-// Delete food
+// Xóa món ăn
 export const deleteFood = async (id) => {
   try {
     let foods = await getAllFoods();
@@ -102,7 +102,7 @@ export const deleteFood = async (id) => {
       throw new Error('Không tìm thấy món ăn');
     }
     
-    // Filter out the food to delete
+    // Loại bỏ món ăn cần xóa khỏi mảng
     foods = foods.filter(food => food.id !== id);
     
     await fs.writeFile(foodsFilePath, JSON.stringify(foods, null, 2));

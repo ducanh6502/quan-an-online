@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-// Get all orders (admin only)
+// Lấy danh sách tất cả đơn hàng (chỉ admin)
 router.get('/', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const orders = await getAllOrders();
@@ -20,7 +20,7 @@ router.get('/', authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Get order by ID (admin and owner)
+// Lấy đơn hàng theo ID (admin và người đặt đơn)
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const order = await getOrderById(req.params.id);
@@ -29,7 +29,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
     }
     
-    // Check if user is admin or order owner
+    // Kiểm tra quyền: chỉ admin hoặc người đặt đơn hàng mới được xem
     if (!req.user.isAdmin && order.userId !== req.user.id) {
       return res.status(403).json({ message: 'Không có quyền truy cập đơn hàng này' });
     }
@@ -40,7 +40,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// Get orders by user ID
+// Lấy đơn hàng của người dùng hiện tại theo ID người dùng
 router.get('/user/my-orders', authMiddleware, async (req, res) => {
   try {
     const orders = await getOrdersByUserId(req.user.id);
@@ -50,17 +50,17 @@ router.get('/user/my-orders', authMiddleware, async (req, res) => {
   }
 });
 
-// Create new order
+// Tạo đơn hàng mới
 router.post('/', authMiddleware, async (req, res) => {
   try {
     const { items, totalAmount, address, phone, paymentMethod } = req.body;
     
-    // Validate input
+    // Kiểm tra dữ liệu đầu vào
     if (!items || !totalAmount || !address || !phone || !paymentMethod) {
       return res.status(400).json({ message: 'Vui lòng nhập đầy đủ thông tin' });
     }
     
-    // Create new order
+    // Tạo đơn hàng mới
     const newOrder = await createOrder({
       userId: req.user.id,
       items,
@@ -76,7 +76,7 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
-// Update order (admin only)
+// Cập nhật đơn hàng (chỉ admin)
 router.put('/:id', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { status } = req.body;

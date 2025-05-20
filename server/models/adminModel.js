@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const adminsFilePath = path.join(__dirname, '../data/admins.json');
 
-// Get all admins
+// Lấy và trả về toàn bộ danh sách tài khoản admin
 export const getAllAdmins = async () => {
   try {
     const data = await fs.readFile(adminsFilePath, 'utf8');
@@ -18,7 +18,7 @@ export const getAllAdmins = async () => {
   }
 };
 
-// Get admin by ID
+// Lấy thông tin admin theo ID
 export const getAdminById = async (id) => {
   try {
     const admins = await getAllAdmins();
@@ -29,7 +29,7 @@ export const getAdminById = async (id) => {
   }
 };
 
-// Get admin by username
+// Lấy thông tin admin theo tên đăng nhập
 export const getAdminByUsername = async (username) => {
   try {
     const admins = await getAllAdmins();
@@ -40,7 +40,7 @@ export const getAdminByUsername = async (username) => {
   }
 };
 
-// Verify password
+// Xác thực mật khẩu
 export const verifyPassword = async (plainPassword, storedPassword) => {
   return plainPassword === storedPassword;
 };

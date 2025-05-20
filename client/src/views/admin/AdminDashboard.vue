@@ -39,7 +39,7 @@ onMounted(async () => {
       </div>
       
       <div v-else class="dashboard-container">
-        <!-- Stats Cards -->
+        <!-- Các thẻ thống kê số liệu -->
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-icon" style="background-color: #4caf50;">

@@ -18,7 +18,7 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Configure multer for file uploads
+// Cấu hình multer để upload file
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, '../uploads/'));
@@ -29,6 +29,7 @@ const storage = multer.diskStorage({
   }
 });
 
+// Lọc file upload chỉ cho phép hình ảnh
 const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif/;
   const isValidType = allowedTypes.test(path.extname(file.originalname).toLowerCase());
@@ -41,18 +42,19 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// Giới hạn dung lượng file upload tối đa 5MB
 const upload = multer({ 
   storage, 
   fileFilter,
   limits: { fileSize: 5 * 1024 * 1024 } // 5MB
 });
 
-// Public routes
+// Các route công khai
 router.get('/', getFoods);
 router.get('/popular', getPopular);
 router.get('/:id', getFood);
 
-// Admin routes
+// Các route dành cho admin (cần xác thực)
 router.post('/', authMiddleware, adminMiddleware, upload.single('image'), addFood);
 router.put('/:id', authMiddleware, adminMiddleware, upload.single('image'), editFood);
 router.delete('/:id', authMiddleware, adminMiddleware, removeFood);

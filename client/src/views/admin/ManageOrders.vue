@@ -13,21 +13,21 @@ const isLoading = ref(true);
 const selectedOrder = ref(null);
 const showModal = ref(false);
 
-// Filters
+// Bộ lọc
 const statusFilter = ref('all');
 const searchQuery = ref('');
 const sortOrder = ref('newest');
 
-// Filtered and sorted orders
+// Đơn hàng đã lọc và sắp xếp
 const filteredOrders = computed(() => {
   let result = [...orders.value];
   
-  // Apply status filter
+  // Áp dụng bộ lọc trạng thái
   if (statusFilter.value !== 'all') {
     result = result.filter(order => order.status === statusFilter.value);
   }
   
-  // Apply search
+  // Áp dụng tìm kiếm
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim();
     result = result.filter(order => 
@@ -37,7 +37,7 @@ const filteredOrders = computed(() => {
     );
   }
   
-  // Apply sorting
+  // Áp dụng sắp xếp
   if (sortOrder.value === 'newest') {
     result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   } else if (sortOrder.value === 'oldest') {
@@ -51,7 +51,7 @@ const filteredOrders = computed(() => {
   return result;
 });
 
-// Order statuses for dropdown
+// Danh sách trạng thái đơn hàng cho dropdown
 const orderStatuses = [
   'Đang xử lý',
   'Đang giao hàng',
@@ -59,13 +59,13 @@ const orderStatuses = [
   'Đã hủy'
 ];
 
-// Load orders data
+// Tải dữ liệu đơn hàng
 onMounted(async () => {
   try {
     const response = await axios.get('/api/orders');
     orders.value = response.data;
     
-    // Check if there's an order ID in the URL
+    // Kiểm tra xem có order ID trên URL không
     const orderId = route.query.id;
     if (orderId) {
       const order = orders.value.find(o => o.id === orderId);
@@ -82,28 +82,28 @@ onMounted(async () => {
   }
 });
 
-// View order details
+// Xem chi tiết đơn hàng
 function viewOrderDetails(order) {
   selectedOrder.value = order;
   showModal.value = true;
 }
 
-// Close modal
+// Đóng modal
 function closeModal() {
   showModal.value = false;
 }
 
-// Update order status
+// Cập nhật trạng thái đơn hàng
 async function updateStatus(newStatus) {
   try {
     await axios.put(`/api/orders/${selectedOrder.value.id}`, {
       status: newStatus
     });
     
-    // Update local state
+    // Cập nhật trạng thái trong state local
     selectedOrder.value.status = newStatus;
     
-    // Update in orders list
+    // Cập nhật trạng thái trong danh sách orders
     const orderIndex = orders.value.findIndex(o => o.id === selectedOrder.value.id);
     if (orderIndex !== -1) {
       orders.value[orderIndex].status = newStatus;
@@ -116,7 +116,7 @@ async function updateStatus(newStatus) {
   }
 }
 
-// Get status class
+// Lấy class cho trạng thái
 function getStatusClass(status) {
   if (status === 'Đang xử lý') return 'status-processing';
   if (status === 'Đang giao hàng') return 'status-shipping';
@@ -213,7 +213,7 @@ function getStatusClass(status) {
         </table>
       </div>
       
-      <!-- Order Details Modal -->
+      <!-- Modal chi tiết đơn hàng -->
       <div v-if="showModal && selectedOrder" class="modal-overlay">
         <div class="modal-content">
           <div class="modal-header">

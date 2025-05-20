@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 
-// Secret key for JWT
+// Khóa bí mật cho JWT
 const JWT_SECRET = 'quananonline-secret-key';
 
-// Generate JWT token
+// Tạo token JWT
 export const generateToken = (user, isAdmin = false) => {
   return jwt.sign(
     { id: user.id, isAdmin },
@@ -12,7 +12,7 @@ export const generateToken = (user, isAdmin = false) => {
   );
 };
 
-// Authentication middleware
+// Middleware xác thực người dùng
 export const authMiddleware = (req, res, next) => {
   try {
     const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -29,7 +29,7 @@ export const authMiddleware = (req, res, next) => {
   }
 };
 
-// Admin middleware
+// Middleware xác thực quyền admin
 export const adminMiddleware = (req, res, next) => {
   try {
     if (req.user && req.user.isAdmin) {

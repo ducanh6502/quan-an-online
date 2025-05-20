@@ -4,12 +4,18 @@ import AdminSidebar from '../../components/admin/AdminSidebar.vue';
 import axios from '../../utils/axios';
 import { useToast } from 'vue-toastification';
 
+// Hiển thị thông báo
 const toast = useToast();
+// Danh sách món ăn
 const foods = ref([]);
+// Danh sách danh mục
 const categories = ref([]);
+// Trạng thái đang tải dữ liệu
 const isLoading = ref(true);
+// Trạng thái hiển thị modal
 const showModal = ref(false);
-const modalType = ref('add'); // 'add' or 'edit'
+// Loại modal: 'thêm' hoặc 'sửa'
+const modalType = ref('add'); // 'thêm' hoặc 'sửa'
 
 // Form data
 const foodForm = ref({
@@ -22,26 +28,26 @@ const foodForm = ref({
   popular: false
 });
 
-// Get file input ref for reset
+// Tham chiếu đến input file để reset
 const fileInput = ref(null);
 
-// For image preview
+// Xem trước hình ảnh
 const imagePreview = ref('');
 
-// Filter and search
+// Tìm kiếm và lọc món ăn
 const searchQuery = ref('');
 const selectedCategory = ref('all');
 
-// Filtered foods
+// Danh sách món ăn sau khi lọc
 const filteredFoods = computed(() => {
   let result = foods.value;
   
-  // Filter by category
+  // Lọc theo danh mục
   if (selectedCategory.value !== 'all') {
     result = result.filter(food => food.category === selectedCategory.value);
   }
   
-  // Filter by search
+  // Lọc theo từ khóa tìm kiếm
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim();
     result = result.filter(food => 
@@ -53,7 +59,7 @@ const filteredFoods = computed(() => {
   return result;
 });
 
-// Load data
+// Tải dữ liệu khi component được mount
 onMounted(async () => {
   try {
     const [foodsRes, categoriesRes] = await Promise.all([
@@ -71,14 +77,14 @@ onMounted(async () => {
   }
 });
 
-// Open modal for adding food
+// Mở modal để thêm món ăn mới
 function openAddModal() {
   modalType.value = 'add';
   resetForm();
   showModal.value = true;
 }
 
-// Open modal for editing food
+// Mở modal để sửa thông tin món ăn
 function openEditModal(food) {
   modalType.value = 'edit';
   resetForm();
@@ -97,12 +103,12 @@ function openEditModal(food) {
   showModal.value = true;
 }
 
-// Close modal
+// Đóng modal
 function closeModal() {
   showModal.value = false;
 }
 
-// Reset form
+// Reset form nhập liệu
 function resetForm() {
   foodForm.value = {
     id: '',
@@ -120,7 +126,7 @@ function resetForm() {
   }
 }
 
-// Handle image change
+// Xử lý khi chọn hình ảnh mới
 function handleImageChange(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -131,7 +137,7 @@ function handleImageChange(event) {
     return;
   }
   
-  // Create image preview
+  // Tạo xem trước hình ảnh
   const reader = new FileReader();
   reader.onload = e => {
     imagePreview.value = e.target.result;
@@ -139,20 +145,20 @@ function handleImageChange(event) {
   reader.readAsDataURL(file);
 }
 
-// Submit form
+// Gửi form (thêm hoặc cập nhật món ăn)
 async function submitForm() {
   if (!foodForm.value.name || !foodForm.value.description || !foodForm.value.price || !foodForm.value.category) {
     toast.error('Vui lòng nhập đầy đủ thông tin');
     return;
   }
   
-  // Check if price is a valid number
+  // Kiểm tra xem giá tiền có phải là số hợp lệ không
   if (isNaN(parseFloat(foodForm.value.price)) || parseFloat(foodForm.value.price) <= 0) {
     toast.error('Giá không hợp lệ');
     return;
   }
   
-  // If adding new food, image is required
+  // Nếu thêm món ăn mới, bắt buộc phải chọn hình ảnh
   if (modalType.value === 'add' && !imagePreview.value && !fileInput.value?.files[0]) {
     toast.error('Vui lòng chọn hình ảnh');
     return;
@@ -166,7 +172,7 @@ async function submitForm() {
     formData.append('category', foodForm.value.category);
     formData.append('popular', foodForm.value.popular);
     
-    // Add image if a new file is selected
+    // Thêm hình ảnh nếu đã chọn file mới
     if (fileInput.value?.files[0]) {
       formData.append('image', fileInput.value.files[0]);
     } else if (foodForm.value.image) {
@@ -175,7 +181,7 @@ async function submitForm() {
     
     let response;
     
-    // Add or edit food
+    // Thêm hoặc cập nhật món ăn
     if (modalType.value === 'add') {
       response = await axios.post('/api/foods', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
@@ -188,7 +194,7 @@ async function submitForm() {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
-      // Update food in list
+      // Cập nhật món ăn trong danh sách
       const index = foods.value.findIndex(f => f.id === foodForm.value.id);
       if (index !== -1) {
         foods.value[index] = response.data;
@@ -204,7 +210,7 @@ async function submitForm() {
   }
 }
 
-// Delete food
+// Xóa món ăn
 async function deleteFood(food) {
   if (!confirm(`Bạn có chắc chắn muốn xóa món ${food.name} không?`)) {
     return;
@@ -213,7 +219,7 @@ async function deleteFood(food) {
   try {
     await axios.delete(`/api/foods/${food.id}`);
     
-    // Remove from list
+    // Xóa khỏi danh sách
     foods.value = foods.value.filter(f => f.id !== food.id);
     
     toast.success('Xóa món ăn thành công');
@@ -223,7 +229,7 @@ async function deleteFood(food) {
   }
 }
 
-// Get category name
+// Lấy tên danh mục từ id
 function getCategoryName(categoryId) {
   const category = categories.value.find(c => c.id === categoryId);
   return category ? category.name : 'Không có danh mục';
@@ -325,7 +331,7 @@ function getCategoryName(categoryId) {
         </table>
       </div>
       
-      <!-- Add/Edit Food Modal -->
+      <!-- Modal Thêm/Sửa Món Ăn -->
       <div v-if="showModal" class="modal-overlay">
         <div class="modal-content">
           <div class="modal-header">

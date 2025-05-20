@@ -17,19 +17,19 @@ const form = ref({
   phone: '',
   address: '',
   note: '',
-  paymentMethod: 'cash' // Default to cash on delivery
+  paymentMethod: 'cash' // Mặc định trả tiền khi nhận hàng
 });
 
-// Loading state
+// Trạng thái đang tải
 const isLoading = ref(false);
 
-// Computed properties
+// Các thuộc tính tính toán
 const cartItems = computed(() => cartStore.items);
 const totalItems = computed(() => cartStore.totalItems);
 const totalPrice = computed(() => cartStore.totalPrice);
 const isEmpty = computed(() => cartItems.value.length === 0);
 
-// Fill form data from user profile
+// Điền dữ liệu form từ hồ sơ người dùng
 onMounted(() => {
   if (authStore.isAuthenticated && authStore.user) {
     form.value.name = authStore.user.name || '';
@@ -38,7 +38,7 @@ onMounted(() => {
   }
 });
 
-// Place order
+// Đặt hàng
 async function placeOrder() {
   if (isEmpty.value) {
     toast.error('Giỏ hàng trống. Không thể đặt hàng.');
@@ -53,7 +53,7 @@ async function placeOrder() {
   isLoading.value = true;
   
   try {
-    // Prepare order data
+    // Chuẩn bị dữ liệu đơn hàng
     const orderData = {
       items: cartItems.value,
       totalAmount: totalPrice.value,
@@ -63,16 +63,16 @@ async function placeOrder() {
       paymentMethod: form.value.paymentMethod === 'cash' ? 'Tiền mặt' : 'Chuyển khoản'
     };
     
-    // Submit order
+    // Gửi đơn hàng
     const response = await axios.post('/api/orders', orderData);
     
-    // Clear cart
+    // Xóa giỏ hàng
     cartStore.clearCart();
     
-    // Show success message
+    // Hiển thị thông báo thành công
     toast.success('Đặt hàng thành công!');
     
-    // Redirect to order history
+    // Chuyển hướng đến lịch sử đơn hàng
     router.push(`/orders?new=${response.data.id}`);
   } catch (error) {
     console.error('Error placing order:', error);
@@ -85,19 +85,24 @@ async function placeOrder() {
 
 <template>
   <div class="checkout-page">
+    <!-- Trang thanh toán -->
     <div class="container">
       <h1>Thanh toán</h1>
-      
+
+      <!-- Hiển thị khi giỏ hàng trống -->
       <div v-if="isEmpty" class="empty-checkout">
         <h2>Giỏ hàng trống</h2>
         <p>Thêm món ăn vào giỏ hàng để tiến hành đặt hàng.</p>
         <router-link to="/menu" class="btn btn-primary">Xem thực đơn</router-link>
       </div>
       
+      <!-- Nội dung thanh toán -->
       <div v-else class="checkout-content">
+        <!-- Form thông tin giao hàng -->
         <div class="checkout-form card">
           <h2>Thông tin giao hàng</h2>
           
+          <!-- Form thông tin giao hàng -->
           <div class="form-group">
             <label for="name">Họ tên</label>
             <input 
@@ -145,6 +150,7 @@ async function placeOrder() {
             ></textarea>
           </div>
           
+          <!-- Phương thức thanh toán -->
           <h2>Phương thức thanh toán</h2>
           
           <div class="payment-options">
@@ -161,9 +167,11 @@ async function placeOrder() {
           </div>
         </div>
         
+        <!-- Tổng đơn hàng -->
         <div class="order-summary card">
           <h2>Tổng đơn hàng</h2>
           
+          <!-- Danh sách món trong đơn -->
           <div class="order-items">
             <div v-for="item in cartItems" :key="item.id" class="order-item">
               <div class="item-name">
@@ -173,6 +181,7 @@ async function placeOrder() {
             </div>
           </div>
           
+          <!-- Tổng số lượng và tổng tiền -->
           <div class="order-total">
             <div class="total-row">
               <span>Tổng số lượng:</span>
@@ -184,6 +193,7 @@ async function placeOrder() {
             </div>
           </div>
           
+          <!-- Nút đặt hàng -->
           <button 
             class="btn btn-primary place-order-btn"
             @click="placeOrder"
@@ -192,6 +202,7 @@ async function placeOrder() {
             {{ isLoading ? 'Đang xử lý...' : 'Đặt hàng ngay' }}
           </button>
           
+          <!-- Quay lại giỏ hàng -->
           <router-link to="/cart" class="back-to-cart">
             « Quay lại giỏ hàng
           </router-link>
